@@ -35,7 +35,16 @@ public class Course {
             unique = true,
             columnDefinition = "TEXT"
     )
+
+    /*
+    @ManyToOne
+    @JoinColumn(
+            name = "course_name"
+    )
+    */
+
     private String name;
+
 //    private List<Long> studentIds;
 
     public Course(Long id, String name) {

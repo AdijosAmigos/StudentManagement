@@ -61,8 +61,16 @@ public class Student {
             columnDefinition = "TEXT"
     )
     private String password;
-//    private List<Course> courses;
-
+    /*
+    @OneToMany(
+            mappedBy = "Student",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Course> courses; ??
+    private List<Long> courses; -> błąd
+    private List<String> courses; -> bląd
+    */
     public Student() {
 
     }
