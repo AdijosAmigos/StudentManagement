@@ -9,42 +9,19 @@ import java.util.Set;
 @Table
 public class Student {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE
-    )
-    @Column(
-            name = "id",
-            updatable = false
-    )
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(
-            name = "first_name",
-            nullable = false,
-            columnDefinition = "TEXT"
-    )
     private String firstName;
-    @Column(
-            name = "last_name",
-            nullable = false,
-            columnDefinition = "TEXT"
-    )
     private String lastName;
-
-
 
     public Student() {
 
     }
 
-    public Student(
-            String firstName,
-            String lastName
-           ) {
+    public Student(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-
     }
-
 
     public Long getId() {
         return id;

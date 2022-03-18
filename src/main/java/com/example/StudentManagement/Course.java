@@ -10,22 +10,8 @@ import java.util.Objects;
 
 public class Course {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE
-    )
-    @Column(
-            name = "id",
-            updatable = false,
-            nullable = false
-    )
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(
-            name = "course_name",
-            nullable = false,
-            unique = true,
-            columnDefinition = "TEXT"
-    )
-
     private String name;
 
 
