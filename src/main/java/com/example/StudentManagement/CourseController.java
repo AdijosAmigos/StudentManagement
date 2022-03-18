@@ -31,15 +31,21 @@ public class CourseController {
 
     }
 
-    @GetMapping("/course{id}")
+    @GetMapping("/course/{id}")
     ResponseEntity<Course> findCourseById(@PathVariable String id) {
+        if(Long.parseLong(id) < 0 ){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         Optional<Course> course = courseRepository.findById(Long.parseLong(id));
         return course.map(c -> new ResponseEntity<>(c, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
 
-    @PostMapping("/deletecourse{id}")
+    @PostMapping("/deletecourse/{id}")
     ResponseEntity<Course> deleteCourse(@PathVariable String id) {
+        if(Long.parseLong(id) < 0 ){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         courseRepository.deleteById(Long.parseLong(id));
         return new ResponseEntity<>(HttpStatus.OK);
     }

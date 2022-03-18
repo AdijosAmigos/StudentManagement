@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity(name = "Course")
-@Table()
+@Table
 
 public class Course {
     @Id
@@ -58,7 +58,6 @@ public class Course {
         return "Course{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", studentIds=" +
                 '}';
     }
 }

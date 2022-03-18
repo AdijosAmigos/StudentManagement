@@ -40,4 +40,63 @@ class CourseControllerTestIT {
         assertThat(result.getBody()).containsExactly(course);
     }
 
+    @Test
+    void should_add_course(){
+        Course course = new Course(1L,"math");
+
+        var result = restTemplate.postForEntity("http://localhost:" +port+ "/addcourse", course, Course.class);
+
+        assertThat(result.getStatusCode().is2xxSuccessful()).isTrue();
+    }
+
+    @Test
+    void should_find_course_by_id(){
+        Course course1 = new Course(1L,"math");
+        Course course2 = new Course(2L,"chemistry");
+        courseRepository.save(course1);
+        courseRepository.save(course2);
+
+        var result = restTemplate.getForEntity("http://localhost:" +port+ "/course/1", Course.class);
+
+        assertThat(result.getStatusCode().is2xxSuccessful()).isTrue();
+
+    }
+
+    @Test
+    void should_delete_course_by_id(){
+        Course course1 = new Course(1L,"math");
+        Course course2 = new Course(2L,"chemistry");
+        courseRepository.save(course1);
+        courseRepository.save(course2);
+
+        var result = restTemplate.postForEntity("http://localhost:" +port+ "/deletecourse/1", course1, Course.class);
+
+        assertThat(result.getStatusCodeValue()).isEqualTo(200);
+
+    }
+
+    @Test
+    void should_not_be_able_to_find_course_by_id(){
+        Course course1 = new Course(1L,"math");
+
+        courseRepository.save(course1);
+
+        var result = restTemplate.getForEntity("http://localhost:" +port+ "/course/-1", Course.class);
+
+        assertThat(result.getStatusCodeValue()).isEqualTo(404);
+
+    }
+
+    @Test
+    void should_not_be_able_delete_course_by_id(){
+        Course course1 = new Course(1L,"math");
+
+        courseRepository.save(course1);
+
+        var result = restTemplate.postForEntity("http://localhost:" +port+ "/deletecourse/-1", course1, Course.class);
+
+        assertThat(result.getStatusCodeValue()).isEqualTo(404);
+
+    }
+
 }
