@@ -30,15 +30,21 @@ public class StudentController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/student{id}")
+    @GetMapping("/student/{id}")
     ResponseEntity<Student> findById(@PathVariable String id){
-        Optional<Student> student = studentRepository.findById(Long.getLong(id));
+        if(Long.parseLong(id) < 0 ){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Optional<Student> student = studentRepository.findById(Long.parseLong(id));
         return student.map(s -> new ResponseEntity<>(s, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
 
-    @PostMapping("/deletestudent{id}")
-    ResponseEntity<Course> deleteCourse(@PathVariable String id) {
+    @PostMapping("/deletestudent/{id}")
+    ResponseEntity<Student> deleteCourse(@PathVariable String id) {
+        if(Long.parseLong(id) < 0 ){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         studentRepository.deleteById(Long.parseLong(id));
         return new ResponseEntity<>(HttpStatus.OK);
     }
