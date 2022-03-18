@@ -10,10 +10,12 @@ import java.util.Optional;
 public class StudentService {
 
     private final StudentRepository studentRepository;
+    private final CourseService courseService;
 
     @Autowired
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, CourseService courseService) {
         this.studentRepository = studentRepository;
+        this.courseService = courseService;
     }
 
     public void addStudent(Student student){
@@ -30,6 +32,13 @@ public class StudentService {
 
     public void deleteStudent(Long id){
         studentRepository.deleteById(id);
+    }
+
+    public void subscribeToCourse(Long studentId, Long courseId){
+        var course = courseService.findCourseById(courseId);
+        var student = findStudentById(studentId);
+        student.get().addCourse(course.get());
+        studentRepository.save(student.get());
     }
 
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class CourseService {
@@ -24,12 +25,14 @@ public class CourseService {
         return courseRepository.findAll();
     }
 
-    public Optional<Course> findSCourseById(Long id){
+    public Optional<Course> findCourseById(Long id){
         return courseRepository.findById(id);
     }
 
     public void deleteCourse(Long id){
         courseRepository.deleteById(id);
     }
+
+
 
 }

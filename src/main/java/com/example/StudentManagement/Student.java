@@ -10,9 +10,17 @@ import java.util.Set;
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "student_id")
     private Long id;
     private String firstName;
     private String lastName;
+
+    @ManyToMany(mappedBy = "students")
+    @JoinTable(
+            name = "student",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private Set<Course> courses;
 
     public Student() {
 
@@ -36,11 +44,17 @@ public class Student {
         return firstName;
     }
 
-
     public String getLastName() {
         return lastName;
     }
 
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
+    }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -50,19 +64,21 @@ public class Student {
         this.lastName = lastName;
     }
 
-
+    public void addCourse(Course course){
+        courses.add(course);
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return Objects.equals(id, student.id) && Objects.equals(firstName, student.firstName) && Objects.equals(lastName, student.lastName);
+        return Objects.equals(id, student.id) && Objects.equals(firstName, student.firstName) && Objects.equals(lastName, student.lastName) && Objects.equals(courses, student.courses);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName);
+        return Objects.hash(id, firstName, lastName, courses);
     }
 
     @Override
@@ -71,6 +87,7 @@ public class Student {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", courses=" + courses +
                 '}';
     }
 }
