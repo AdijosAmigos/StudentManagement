@@ -6,27 +6,17 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity(name = "Course")
-@Table(
-        name = "Course",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "course_name_unique", columnNames = "course_name")
-        }
-)
+@Table()
 
 public class Course {
     @Id
-    @SequenceGenerator(
-            name = "course_sequence",
-            sequenceName = "course_sequence",
-            allocationSize = 1
-    )
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "course_sequence"
+            strategy = GenerationType.SEQUENCE
     )
     @Column(
             name = "id",
-            updatable = false
+            updatable = false,
+            nullable = false
     )
     private Long id;
     @Column(
@@ -36,16 +26,8 @@ public class Course {
             columnDefinition = "TEXT"
     )
 
-    /*
-    @ManyToOne
-    @JoinColumn(
-            name = "course_name"
-    )
-    */
-
     private String name;
 
-//    private List<Long> studentIds;
 
     public Course(Long id, String name) {
         this.id = id;
@@ -71,13 +53,6 @@ public class Course {
         this.name = name;
     }
 
-//    public List<Long> getStudentIds() {
-//        return studentIds;
-//    }
-
-//    public void setStudentIds(List<Long> studentIds) {
-//        this.studentIds = studentIds;
-//    }
 
     @Override
     public boolean equals(Object o) {

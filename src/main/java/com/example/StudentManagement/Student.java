@@ -3,25 +3,14 @@ package com.example.StudentManagement;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity(name = "Student")
-@Table(
-        name = "Student",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "student_pid_unique", columnNames = "PID")
-        }
-
-)
+@Table
 public class Student {
     @Id
-    @SequenceGenerator(
-            name = "student_sequence",
-            sequenceName = "student_sequence",
-            allocationSize = 1
-    )
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "student_sequence"
+            strategy = GenerationType.SEQUENCE
     )
     @Column(
             name = "id",
@@ -40,52 +29,20 @@ public class Student {
             columnDefinition = "TEXT"
     )
     private String lastName;
-    @Column(
-            name = "PID",
-            nullable = false,
-            columnDefinition = "TEXT",
-            unique = true
-    )
-    private String PID;
-    @Column(
-            name = "login",
-            nullable = false,
-            unique = true,
-            updatable = false,
-            columnDefinition = "TEXT"
-    )
-    private String login;
-    @Column(
-            name = "password",
-            nullable = false,
-            columnDefinition = "TEXT"
-    )
-    private String password;
-    /*
-    @OneToMany(
-            mappedBy = "Student",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<Course> courses; ??
-    private List<Long> courses; -> błąd
-    private List<String> courses; -> bląd
-    */
+
+
+
     public Student() {
 
     }
 
     public Student(
             String firstName,
-            String lastName,
-            String PID,
-            String login,
-            String password) {
+            String lastName
+           ) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.PID = PID;
-        this.login = login;
-        this.password = password;
+
     }
 
 
@@ -106,19 +63,6 @@ public class Student {
         return lastName;
     }
 
-    public String getPID() {
-        return PID;
-    }
-
-
-    public String getLogin() {
-        return login;
-    }
-
-
-    public String getPassword() {
-        return password;
-    }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -128,37 +72,19 @@ public class Student {
         this.lastName = lastName;
     }
 
-    public void setPID(String PID) {
-        this.PID = PID;
-    }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-//    public List<Course> getCourses() {
-//        return courses;
-//    }
-
-//    public void setCourses(List<Course> courses) {
-//        this.courses = courses;
-//    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return Objects.equals(id, student.id) && Objects.equals(firstName, student.firstName) && Objects.equals(lastName, student.lastName) && Objects.equals(PID, student.PID) && Objects.equals(login, student.login) && Objects.equals(password, student.password);
+        return Objects.equals(id, student.id) && Objects.equals(firstName, student.firstName) && Objects.equals(lastName, student.lastName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, PID, login, password);
+        return Objects.hash(id, firstName, lastName);
     }
 
     @Override
@@ -167,9 +93,6 @@ public class Student {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", PID='" + PID + '\'' +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
                 '}';
     }
 }
