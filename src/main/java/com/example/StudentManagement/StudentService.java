@@ -18,23 +18,23 @@ public class StudentService {
         this.courseService = courseService;
     }
 
-    public void addStudent(Student student){
+    public void addStudent(Student student) {
         studentRepository.save(student);
     }
 
-    public List<Student> getAllStudents(){
+    public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
 
-    public Optional<Student> findStudentById(Long id){
+    public Optional<Student> findStudentById(Long id) {
         return studentRepository.findById(id);
     }
 
-    public void deleteStudent(Long id){
+    public void deleteStudent(Long id) {
         studentRepository.deleteById(id);
     }
 
-    public void subscribeToCourse(Long studentId, Long courseId){
+    public void subscribeToCourse(Long studentId, Long courseId) {
         var course = courseService.findCourseById(courseId);
         var student = findStudentById(studentId);
         student.get().addCourse(course.get());

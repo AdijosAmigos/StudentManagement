@@ -31,8 +31,8 @@ public class StudentController {
     }
 
     @GetMapping("/student/{id}")
-    ResponseEntity<Student> findById(@PathVariable String id){
-        if(Long.parseLong(id) < 0 ){
+    ResponseEntity<Student> findById(@PathVariable String id) {
+        if (Long.parseLong(id) < 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Optional<Student> student = studentRepository.findById(Long.parseLong(id));
@@ -42,7 +42,7 @@ public class StudentController {
 
     @PostMapping("/deletestudent/{id}")
     ResponseEntity<Student> deleteCourse(@PathVariable String id) {
-        if(Long.parseLong(id) < 0 ){
+        if (Long.parseLong(id) < 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         studentRepository.deleteById(Long.parseLong(id));

@@ -19,7 +19,7 @@ public class Student {
     @ManyToMany
     @JoinTable(
             name = "course_like",
-            joinColumns = @JoinColumn( name = "student_id"),
+            joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
     private Set<Course> courses;
@@ -66,7 +66,7 @@ public class Student {
         this.lastName = lastName;
     }
 
-    public void addCourse(Course course){
+    public void addCourse(Course course) {
         courses.add(course);
     }
 
