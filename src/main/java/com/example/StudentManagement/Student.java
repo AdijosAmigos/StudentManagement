@@ -12,6 +12,7 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "student_id")
     private Long id;
+
     private String firstName;
     private String lastName;
 

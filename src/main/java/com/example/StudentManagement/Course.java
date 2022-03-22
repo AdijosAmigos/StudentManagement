@@ -13,6 +13,7 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "course_id")
     private Long id;
+
     private String name;
 
     @ManyToMany(mappedBy = "courses")
