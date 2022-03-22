@@ -15,11 +15,12 @@ public class Student {
     private String firstName;
     private String lastName;
 
-    @ManyToMany(mappedBy = "students")
+    @ManyToMany
     @JoinTable(
-            name = "student",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id"))
+            name = "course_like",
+            joinColumns = @JoinColumn( name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
     private Set<Course> courses;
 
     public Student() {

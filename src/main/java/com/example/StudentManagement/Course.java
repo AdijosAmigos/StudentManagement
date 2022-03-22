@@ -8,18 +8,14 @@ import java.util.Set;
 
 @Entity(name = "Course")
 @Table
-
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "course_id")
     private Long id;
     private String name;
-    @ManyToMany
-    @JoinTable(
-            name = "students",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "student_id"))
+
+    @ManyToMany(mappedBy = "courses")
     private Set<Student> students;
 
 
