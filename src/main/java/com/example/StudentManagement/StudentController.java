@@ -40,8 +40,8 @@ public class StudentController {
                 .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
 
-    @PostMapping("/deletestudent/{id}")
-    ResponseEntity<Student> deleteCourse(@PathVariable String id) {
+    @DeleteMapping("/deletestudent/{id}")
+    ResponseEntity<Student> deleteStudent(@PathVariable String id) {
         if (Long.parseLong(id) < 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
