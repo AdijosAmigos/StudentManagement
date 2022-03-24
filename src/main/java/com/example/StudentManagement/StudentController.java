@@ -18,6 +18,21 @@ public class StudentController {
         this.studentRepository = studentRepository;
     }
 
+    @GetMapping("/hello1")
+    public String sayHello(){
+        return "Hello";
+    }
+
+    @GetMapping("/hello2")
+    public String sayHello2(){
+        return "Hello2";
+    }
+
+    @GetMapping("/hello3")
+    public String sayHello3(){
+        return "Hello3";
+    }
+
     @GetMapping("/students")
     ResponseEntity<List<Student>> all() {
         List<Student> allUsers = studentRepository.findAll();
