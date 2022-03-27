@@ -41,4 +41,8 @@ public class StudentService {
         studentRepository.save(student.get());
     }
 
+    public Student updateStudent(Student student){
+        return studentRepository.save(student);
+    }
+
 }

@@ -12,10 +12,12 @@ import java.util.Optional;
 public class StudentController {
 
     private final StudentRepository studentRepository;
+    private final StudentService studentService;
 
     @Autowired
-    public StudentController(StudentRepository studentRepository) {
+    public StudentController(StudentRepository studentRepository, StudentService studentService) {
         this.studentRepository = studentRepository;
+        this.studentService = studentService;
     }
 
     @GetMapping("/hello1")
@@ -41,7 +43,7 @@ public class StudentController {
 
     @PostMapping("/addstudent")
     ResponseEntity<Student> addUser(@RequestBody Student student) {
-        studentRepository.save(student);
+        studentService.addStudent(student);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -50,7 +52,7 @@ public class StudentController {
         if (Long.parseLong(id) < 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Optional<Student> student = studentRepository.findById(Long.parseLong(id));
+        Optional<Student> student = studentService.findStudentById(Long.parseLong(id));
         return student.map(s -> new ResponseEntity<>(s, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
@@ -60,8 +62,14 @@ public class StudentController {
         if (Long.parseLong(id) < 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        studentRepository.deleteById(Long.parseLong(id));
+        studentService.deleteStudent(Long.parseLong(id));
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/updateStudent/{id}")
+    ResponseEntity<Student> updateStudent(@RequestBody Student student){
+        studentService.updateStudent(student);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 

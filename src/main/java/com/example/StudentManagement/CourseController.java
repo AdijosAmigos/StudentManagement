@@ -7,16 +7,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @RestController
 public class CourseController {
 
     private final CourseRepository courseRepository;
+    private final CourseService courseService;
 
     @Autowired
-    public CourseController(CourseRepository courseRepository) {
+    public CourseController(CourseRepository courseRepository, CourseService courseService) {
         this.courseRepository = courseRepository;
+        this.courseService = courseService;
     }
 
     @GetMapping("/courses")
@@ -49,6 +50,12 @@ public class CourseController {
         }
         courseRepository.deleteById(Long.parseLong(id));
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/updateCourse/{id}")
+    ResponseEntity<Course> updateCourse(@RequestBody Course course){
+        courseService.updateCourse(course);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 

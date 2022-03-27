@@ -33,5 +33,9 @@ public class CourseService {
         courseRepository.deleteById(id);
     }
 
+    public Course updateCourse(Course course){
+        return courseRepository.save(course);
+    }
+
 
 }
