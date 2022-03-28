@@ -3,6 +3,7 @@ package com.example.StudentManagement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,8 +42,13 @@ public class StudentService {
         studentRepository.save(student.get());
     }
 
+    @Transactional
     public Student updateStudent(Student student){
-        return studentRepository.save(student);
+        Student editStudent = studentRepository.findById(student.getId()).orElseThrow();
+        editStudent.setFirstName(student.getFirstName());
+        editStudent.setLastName(student.getLastName());
+        editStudent.setCourses(student.getCourses());
+        return editStudent;
     }
 
 }

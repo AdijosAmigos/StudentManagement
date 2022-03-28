@@ -66,10 +66,19 @@ public class StudentController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/updateStudent/{id}")
+    @PutMapping("/updateStudent")
     ResponseEntity<Student> updateStudent(@RequestBody Student student){
         studentService.updateStudent(student);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/assignToCourse/{studentId}/{courseId}")
+    ResponseEntity<Student> assignStudentToCourse(@PathVariable String studentId, @PathVariable String courseId){
+        if(Long.parseLong(studentId) < 0 || Long.parseLong(courseId) < 0){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        studentService.subscribeToCourse(Long.parseLong(studentId), Long.parseLong(courseId));
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
