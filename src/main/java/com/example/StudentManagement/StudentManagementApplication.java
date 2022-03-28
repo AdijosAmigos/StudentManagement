@@ -14,14 +14,5 @@ public class StudentManagementApplication {
         SpringApplication.run(StudentManagementApplication.class, args);
     }
 
-    /*
-    @Bean
-    public FilterRegistrationBean filterRegistrationBean(){
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-        filterRegistrationBean.setFilter(new JWTFilter());
-        filterRegistrationBean.setUrlPatterns(Collections.singleton("/hello/**"));
-        return filterRegistrationBean;
-    }
-     */
 
 }

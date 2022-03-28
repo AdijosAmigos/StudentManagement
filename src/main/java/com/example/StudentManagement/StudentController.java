@@ -20,21 +20,6 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping("/hello1")
-    public String sayHello(){
-        return "Hello";
-    }
-
-    @GetMapping("/hello2")
-    public String sayHello2(){
-        return "Hello2";
-    }
-
-    @GetMapping("/hello3")
-    public String sayHello3(){
-        return "Hello3";
-    }
-
     @GetMapping("/students")
     ResponseEntity<List<Student>> all() {
         List<Student> allUsers = studentRepository.findAll();
@@ -43,7 +28,7 @@ public class StudentController {
 
     @PostMapping("/addstudent")
     ResponseEntity<Student> addUser(@RequestBody Student student) {
-        studentService.addStudent(student);
+        studentRepository.save(student);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -52,7 +37,7 @@ public class StudentController {
         if (Long.parseLong(id) < 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Optional<Student> student = studentService.findStudentById(Long.parseLong(id));
+        Optional<Student> student = studentRepository.findById(Long.parseLong(id));
         return student.map(s -> new ResponseEntity<>(s, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
@@ -62,13 +47,13 @@ public class StudentController {
         if (Long.parseLong(id) < 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        studentService.deleteStudent(Long.parseLong(id));
+        studentRepository.deleteById(Long.parseLong(id));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/updateStudent")
+    @PutMapping("/updateStudent/{id}")
     ResponseEntity<Student> updateStudent(@RequestBody Student student){
-        studentService.updateStudent(student);
+        studentRepository.save(student);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -80,6 +65,7 @@ public class StudentController {
         studentService.subscribeToCourse(Long.parseLong(studentId), Long.parseLong(courseId));
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
 
 }

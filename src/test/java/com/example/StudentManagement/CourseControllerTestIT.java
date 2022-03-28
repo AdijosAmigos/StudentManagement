@@ -99,4 +99,17 @@ class CourseControllerTestIT {
 
     }
 
+    // nie dziala
+    @Test
+    void should_be_able_to_update_course(){
+        Course course = new Course(1L, "math");
+
+        Course editCourse = new Course(1L, "chemistry");
+
+        restTemplate.put("http://localhost:" +port+ "/updateCourse", editCourse, Course.class);
+
+        assertThat(course.getName()).isEqualTo(editCourse.getName());
+
+    }
+
 }
