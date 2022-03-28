@@ -1,7 +1,6 @@
-package com.example.StudentManagement;
+package com.example.StudentManagement.model;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 

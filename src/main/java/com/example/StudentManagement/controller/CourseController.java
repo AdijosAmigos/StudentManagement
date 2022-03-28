@@ -1,5 +1,8 @@
-package com.example.StudentManagement;
+package com.example.StudentManagement.controller;
 
+import com.example.StudentManagement.model.Course;
+import com.example.StudentManagement.repository.CourseRepository;
+import com.example.StudentManagement.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

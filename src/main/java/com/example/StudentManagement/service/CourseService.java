@@ -1,5 +1,7 @@
-package com.example.StudentManagement;
+package com.example.StudentManagement.service;
 
+import com.example.StudentManagement.model.Course;
+import com.example.StudentManagement.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
