@@ -2,6 +2,7 @@ package com.example.StudentManagement;
 
 import com.example.StudentManagement.model.Student;
 import com.example.StudentManagement.repository.StudentRepository;
+import com.example.StudentManagement.service.StudentService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +25,9 @@ class StudentControllerTestIT {
 
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    private StudentService studentService;
 
     @Autowired
     ApplicationContext context;

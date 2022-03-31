@@ -2,12 +2,17 @@ package com.example.StudentManagement;
 
 import com.example.StudentManagement.model.Course;
 import com.example.StudentManagement.repository.CourseRepository;
+import com.example.StudentManagement.service.CourseService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,6 +30,9 @@ class CourseControllerTestIT {
 
     @Autowired
     private CourseRepository courseRepository;
+
+    @Autowired
+    private CourseService courseService;
 
     @Autowired
     ApplicationContext context;
@@ -104,12 +112,12 @@ class CourseControllerTestIT {
     @Test
     void should_be_able_to_update_course(){
         Course course = new Course(1L, "math");
-
         Course editCourse = new Course(1L, "chemistry");
 
-        restTemplate.put("http://localhost:" +port+ "/courses/1", editCourse, Course.class);
+//        restTemplate.put("http://localhost:" +port+ "/courses/1", editCourse, Course.class);
+        ResponseEntity<Course> exchange = restTemplate.exchange("http://localhost:" + port + "/courses/1", HttpMethod.PUT, HttpEntity.EMPTY, Course.class, 1);
+        assertThat(exchange.getStatusCode().is2xxSuccessful()).isTrue();
 
-        assertThat(course.getName()).isEqualTo(editCourse.getName());
 
     }
 

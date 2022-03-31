@@ -57,7 +57,7 @@ public class StudentController {
     @PutMapping("/students/{id}")
     ResponseEntity<Student> updateStudent(@RequestBody Student student){
         studentService.updateStudent(student);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/assignToCourse/{studentId}/{courseId}")
