@@ -1,5 +1,6 @@
 package com.example.StudentManagement.service;
 
+import com.example.StudentManagement.controller.StudentUpdateRequest;
 import com.example.StudentManagement.model.Student;
 import com.example.StudentManagement.repository.StudentRepository;
 import com.example.StudentManagement.service.CourseService;
@@ -46,11 +47,11 @@ public class StudentService {
     }
 
     @Transactional
-    public Student updateStudent(Student student){
-        Student editStudent = studentRepository.findById(student.getId()).orElseThrow();
+    public Student updateStudent(StudentUpdateRequest student, Long id){
+        Student editStudent = studentRepository.findById(id).orElseThrow();
         editStudent.setFirstName(student.getFirstName());
         editStudent.setLastName(student.getLastName());
-        editStudent.setCourses(student.getCourses());
+        studentRepository.save(editStudent);
         return editStudent;
     }
 

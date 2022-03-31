@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 public class StudentController {
@@ -55,9 +57,9 @@ public class StudentController {
     }
 
     @PutMapping("/students/{id}")
-    ResponseEntity<Student> updateStudent(@RequestBody Student student){
-        studentService.updateStudent(student);
-        return new ResponseEntity<>(HttpStatus.OK);
+    ResponseEntity<StudentResponse> updateStudent(@RequestBody StudentUpdateRequest student, @PathVariable String id){
+        Student updatedStudent = studentService.updateStudent(student, Long.parseLong(id));
+        return new ResponseEntity<>(toStudentResponse(updatedStudent), HttpStatus.OK);
     }
 
     @PostMapping("/assignToCourse/{studentId}/{courseId}")
@@ -68,6 +70,15 @@ public class StudentController {
         studentService.subscribeToCourse(Long.parseLong(studentId), Long.parseLong(courseId));
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    private StudentResponse toStudentResponse(Student student){
+        Set<StudentResponse.CourseResponse> courses = student.getCourses().stream()
+                .map(course -> new StudentResponse.CourseResponse(course.getId(), course.getName()))
+                .collect(Collectors.toSet());
+        return new StudentResponse(student.getId(), student.getFirstName(), student.getLastName(), courses);
+    }
+
+
 
 
 

@@ -41,9 +41,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic().and().authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/students", "/courses", "/student/{id}", "/course/{id}").permitAll()
-                .antMatchers(HttpMethod.POST, "/addStudent", "/addCourse", "/assignToCourse/{studentId}/{courseId}").hasAnyRole("MODERATOR", "ADMIN")
-                .antMatchers(HttpMethod.PUT, "/students/{id}", "/courses/{id}").hasAnyRole("MODERATOR", "ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/deleteStudent/{id}", "/deleteCourse/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/addStudent", "/addCourse", "/assignToCourse/{studentId}/{courseId}").permitAll()
+                .antMatchers(HttpMethod.PUT, "/students/{id}", "/courses/{id}").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/deleteStudent/{id}", "/deleteCourse/{id}").permitAll()
                 .and()
                 .formLogin().permitAll()
                 .and()
