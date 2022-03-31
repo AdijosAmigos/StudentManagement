@@ -5,6 +5,7 @@ import com.example.StudentManagement.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,9 +35,11 @@ public class CourseService {
         courseRepository.deleteById(id);
     }
 
-    public void updateCourse(Course course){
+    @Transactional
+    public Course updateCourse(Course course){
         Course editCourse = courseRepository.findById(course.getId()).orElseThrow();
         editCourse.setName(course.getName());
+        return editCourse;
     }
 
 
