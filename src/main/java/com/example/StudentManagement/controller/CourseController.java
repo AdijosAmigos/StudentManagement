@@ -25,13 +25,13 @@ public class CourseController {
 
     @GetMapping("/courses")
     ResponseEntity<List<Course>> all() {
-        List<Course> allCourses = courseRepository.findAll();
+        List<Course> allCourses = courseService.getAllCourses();
         return new ResponseEntity<>(allCourses, HttpStatus.OK);
     }
 
     @PostMapping("/addCourse")
     ResponseEntity<Course> addCourse(@RequestBody Course course) {
-        courseRepository.save(course);
+        courseService.addCourse(course);
         return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
@@ -41,7 +41,7 @@ public class CourseController {
         if (Long.parseLong(id) < 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Optional<Course> course = courseRepository.findById(Long.parseLong(id));
+        Optional<Course> course = courseService.findCourseById(Long.parseLong(id));
         return course.map(c -> new ResponseEntity<>(c, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
@@ -51,11 +51,11 @@ public class CourseController {
         if (Long.parseLong(id) < 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        courseRepository.deleteById(Long.parseLong(id));
+        courseService.deleteCourse(Long.parseLong(id));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/updateCourse/{id}")
+    @PutMapping("/courses/{id}")
     ResponseEntity<Course> updateCourse(@RequestBody Course course){
         courseService.updateCourse(course);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

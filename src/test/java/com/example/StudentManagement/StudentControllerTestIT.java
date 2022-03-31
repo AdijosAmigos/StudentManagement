@@ -89,7 +89,7 @@ class StudentControllerTestIT {
         assertThat(result.getStatusCodeValue()).isEqualTo(404);
     }
 
-    //usuwac metoda post czy delete?
+
     //to bedzie do poprawki
     @Test
     void should_not_be_able_delete_student_when_id_less_than_zero(){
@@ -97,7 +97,7 @@ class StudentControllerTestIT {
 
         studentRepository.save(student1);
 
-        var result = restTemplate.postForEntity("http://localhost:" +port+ "/deletestudent/-1", student1, Student.class);
+        var result = restTemplate.postForEntity("http://localhost:" +port+ "/deleteStudent/-1", student1, Student.class);
 
         assertThat(result.getStatusCodeValue()).isEqualTo(404);
     }

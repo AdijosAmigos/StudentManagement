@@ -25,7 +25,7 @@ public class StudentController {
 
     @GetMapping("/students")
     ResponseEntity<List<Student>> all() {
-        List<Student> allUsers = studentRepository.findAll();
+        List<Student> allUsers = studentService.getAllStudents();
         return new ResponseEntity<>(allUsers, HttpStatus.OK);
     }
 
@@ -40,7 +40,7 @@ public class StudentController {
         if (Long.parseLong(id) < 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Optional<Student> student = studentRepository.findById(Long.parseLong(id));
+        Optional<Student> student = studentService.findStudentById(Long.parseLong(id));
         return student.map(s -> new ResponseEntity<>(s, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
@@ -50,13 +50,13 @@ public class StudentController {
         if (Long.parseLong(id) < 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        studentRepository.deleteById(Long.parseLong(id));
+        studentService.deleteStudent(Long.parseLong(id));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/updateStudent/{id}")
+    @PutMapping("/students/{id}")
     ResponseEntity<Student> updateStudent(@RequestBody Student student){
-        studentRepository.save(student);
+        studentService.updateStudent(student);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

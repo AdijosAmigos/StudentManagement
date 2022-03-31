@@ -107,7 +107,7 @@ class CourseControllerTestIT {
 
         Course editCourse = new Course(1L, "chemistry");
 
-        restTemplate.put("http://localhost:" +port+ "/updateCourse", editCourse, Course.class);
+        restTemplate.put("http://localhost:" +port+ "/courses/1", editCourse, Course.class);
 
         assertThat(course.getName()).isEqualTo(editCourse.getName());
 
