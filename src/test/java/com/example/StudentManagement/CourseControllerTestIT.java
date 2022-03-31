@@ -45,7 +45,7 @@ class CourseControllerTestIT {
     void should_add_course(){
         Course course = new Course(1L,"math");
 
-        var result = restTemplate.postForEntity("http://localhost:" +port+ "/addcourse", course, Course.class);
+        var result = restTemplate.postForEntity("http://localhost:" +port+ "/addCourse", course, Course.class);
 
         assertThat(result.getStatusCode().is2xxSuccessful()).isTrue();
     }
@@ -70,7 +70,7 @@ class CourseControllerTestIT {
         courseRepository.save(course1);
         courseRepository.save(course2);
 
-        var result = restTemplate.postForEntity("http://localhost:" +port+ "/deletecourse/1", course1, Course.class);
+        var result = restTemplate.postForEntity("http://localhost:" +port+ "/deleteCourse/1", course1, Course.class);
 
         assertThat(result.getStatusCodeValue()).isEqualTo(200);
 

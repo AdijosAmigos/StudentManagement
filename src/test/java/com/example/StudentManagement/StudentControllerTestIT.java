@@ -43,7 +43,7 @@ class StudentControllerTestIT {
     void should_add_student(){
         Student student = new Student(1L, "Adrian", "Kowalski");
 
-        var result = restTemplate.postForEntity("http://localhost:" +port+ "/addstudent", student, Student.class);
+        var result = restTemplate.postForEntity("http://localhost:" +port+ "/addStudent", student, Student.class);
 
         assertThat(result.getStatusCode().is2xxSuccessful()).isTrue();
     }
@@ -70,7 +70,7 @@ class StudentControllerTestIT {
         studentRepository.save(student1);
         studentRepository.save(student2);
 
-        restTemplate.delete("http://localhost:" +port+ "/deletestudent/1", student1, Student.class);
+        restTemplate.delete("http://localhost:" +port+ "/deleteStudent/1", student1, Student.class);
 
         //czy ta asercja jest poprawna?
         assertThat(studentRepository.findById(1L).isPresent()).isFalse();

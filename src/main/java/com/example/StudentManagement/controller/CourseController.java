@@ -29,7 +29,7 @@ public class CourseController {
         return new ResponseEntity<>(allCourses, HttpStatus.OK);
     }
 
-    @PostMapping("/addcourse")
+    @PostMapping("/addCourse")
     ResponseEntity<Course> addCourse(@RequestBody Course course) {
         courseRepository.save(course);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -46,7 +46,7 @@ public class CourseController {
                 .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
 
-    @PostMapping("/deletecourse/{id}")
+    @DeleteMapping("/deleteCourse/{id}")
     ResponseEntity<Course> deleteCourse(@PathVariable String id) {
         if (Long.parseLong(id) < 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

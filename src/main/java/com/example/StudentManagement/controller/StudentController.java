@@ -29,7 +29,7 @@ public class StudentController {
         return new ResponseEntity<>(allUsers, HttpStatus.OK);
     }
 
-    @PostMapping("/addstudent")
+    @PostMapping("/addStudent")
     ResponseEntity<Student> addUser(@RequestBody Student student) {
         studentService.addStudent(student);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -45,7 +45,7 @@ public class StudentController {
                 .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
 
-    @DeleteMapping("/deletestudent/{id}")
+    @DeleteMapping("/deleteStudent/{id}")
     ResponseEntity<Student> deleteStudent(@PathVariable String id) {
         if (Long.parseLong(id) < 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
