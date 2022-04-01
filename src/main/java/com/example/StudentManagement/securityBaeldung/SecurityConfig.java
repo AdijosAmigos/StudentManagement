@@ -19,19 +19,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         UserDetails USER = User.withDefaultPasswordEncoder()
                 .username("user")
                 .password("user")
-                .roles("USER")
+                .roles(UserType.USER.name())
                 .build();
 
         UserDetails ADMIN = User.withDefaultPasswordEncoder()
                 .username("admin")
                 .password("admin")
-                .roles("ADMIN")
+                .roles(UserType.ADMIN.name())
                 .build();
 
         UserDetails MODERATOR = User.withDefaultPasswordEncoder()
                 .username("mode")
                 .password("mode")
-                .roles("MODERATOR")
+                .roles(UserType.MODERATOR.name())
                 .build();
 
         return new InMemoryUserDetailsManager(USER, ADMIN, MODERATOR);
@@ -41,9 +41,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic().and().authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/students", "/courses", "/student/{id}", "/course/{id}").permitAll()
-                .antMatchers(HttpMethod.POST, "/addStudent", "/addCourse", "/assignToCourse/{studentId}/{courseId}").permitAll()
-                .antMatchers(HttpMethod.PUT, "/students/{id}", "/courses/{id}").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/deleteStudent/{id}", "/deleteCourse/{id}").permitAll()
+                .antMatchers(HttpMethod.POST, "/students", "/student", "/courses/{studentId}/{courseId}").hasAnyRole(UserType.ADMIN.name(), UserType.MODERATOR.name())
+                .antMatchers(HttpMethod.PUT, "/students/{id}", "/courses/{id}").hasAnyRole(UserType.ADMIN.name(), UserType.MODERATOR.name())
+                .antMatchers(HttpMethod.DELETE, "/deleteStudent/{id}", "/deleteCourse/{id}").hasAnyRole(UserType.ADMIN.name())
                 .and()
                 .formLogin().permitAll()
                 .and()

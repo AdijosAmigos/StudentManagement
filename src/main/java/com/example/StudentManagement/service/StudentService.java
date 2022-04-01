@@ -3,7 +3,6 @@ package com.example.StudentManagement.service;
 import com.example.StudentManagement.controller.StudentUpdateRequest;
 import com.example.StudentManagement.model.Student;
 import com.example.StudentManagement.repository.StudentRepository;
-import com.example.StudentManagement.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

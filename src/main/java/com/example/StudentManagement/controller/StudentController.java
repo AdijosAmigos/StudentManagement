@@ -26,15 +26,24 @@ public class StudentController {
     }
 
     @GetMapping("/students")
-    ResponseEntity<List<Student>> all() {
-        List<Student> allUsers = studentService.getAllStudents();
+    ResponseEntity<List<StudentResponse>> all() {
+        List<StudentResponse> allUsers = studentService.getAllStudents()
+                .stream().map(student -> new StudentResponse(
+                        student.getId(),
+                        student.getFirstName(),
+                        student.getLastName(),
+                        student.getCourses()
+                                .stream()
+                                .map(course -> new StudentResponse.
+                                        CourseResponse(course.getId(), course.getName()))
+                                .collect(Collectors.toSet())));
         return new ResponseEntity<>(allUsers, HttpStatus.OK);
     }
 
-    @PostMapping("/addStudent")
-    ResponseEntity<Student> addUser(@RequestBody Student student) {
+    @PostMapping("/students")
+    ResponseEntity<StudentCreateRequest> addUser(@RequestBody Student student) {
         studentService.addStudent(student);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(toStudentCreateRequest(student), HttpStatus.CREATED);
     }
 
     @GetMapping("/student/{id}")
@@ -62,7 +71,7 @@ public class StudentController {
         return new ResponseEntity<>(toStudentResponse(updatedStudent), HttpStatus.OK);
     }
 
-    @PostMapping("/assignToCourse/{studentId}/{courseId}")
+    @PostMapping("/courses/{studentId}/{courseId}")
     ResponseEntity<Student> assignStudentToCourse(@PathVariable String studentId, @PathVariable String courseId){
         if(Long.parseLong(studentId) < 0 || Long.parseLong(courseId) < 0){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -76,6 +85,11 @@ public class StudentController {
                 .map(course -> new StudentResponse.CourseResponse(course.getId(), course.getName()))
                 .collect(Collectors.toSet());
         return new StudentResponse(student.getId(), student.getFirstName(), student.getLastName(), courses);
+    }
+
+
+    private StudentCreateRequest toStudentCreateRequest(Student student){
+        return new StudentCreateRequest(student.getId(), student.getFirstName(), student.getLastName());
     }
 
 
