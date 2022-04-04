@@ -27,17 +27,8 @@ public class StudentController {
 
     @GetMapping("/students")
     ResponseEntity<List<StudentResponse>> all() {
-        List<StudentResponse> allUsers = studentService.getAllStudents()
-                .stream().map(student -> new StudentResponse(
-                        student.getId(),
-                        student.getFirstName(),
-                        student.getLastName(),
-                        student.getCourses()
-                                .stream()
-                                .map(course -> new StudentResponse.
-                                        CourseResponse(course.getId(), course.getName()))
-                                .collect(Collectors.toSet())));
-        return new ResponseEntity<>(allUsers, HttpStatus.OK);
+        List<Student> allUsers = studentService.getAllStudents();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/students")
