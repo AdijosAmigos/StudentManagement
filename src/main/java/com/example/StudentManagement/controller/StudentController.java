@@ -27,32 +27,36 @@ public class StudentController {
 
     @GetMapping("/students")
     ResponseEntity<List<StudentResponse>> all() {
-        List<Student> allUsers = studentService.getAllStudents();
-        return new ResponseEntity<>(HttpStatus.OK);
+        List<StudentResponse> allUsers = studentService.getAllStudents()
+                .stream()
+                .map(this::toStudentResponse)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(allUsers, HttpStatus.OK);
     }
 
     @PostMapping("/students")
-    ResponseEntity<StudentCreateRequest> addUser(@RequestBody Student student) {
-        studentService.addStudent(student);
-        return new ResponseEntity<>(toStudentCreateRequest(student), HttpStatus.CREATED);
+    ResponseEntity<StudentCreateRequest> addUser(@RequestBody StudentCreateRequest student) {
+        Student createdStudent = studentService.addStudent(toStudentCreateRequest(student));
+        return new ResponseEntity<>(toStudentCreateRequest(createdStudent), HttpStatus.CREATED);
     }
 
     @GetMapping("/student/{id}")
-    ResponseEntity<Student> findById(@PathVariable String id) {
+    ResponseEntity<StudentResponse> findById(@PathVariable String id) {
         if (Long.parseLong(id) < 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Optional<Student> student = studentService.findStudentById(Long.parseLong(id));
+        Optional<StudentResponse> student = studentService.findStudentById(Long.parseLong(id))
+                .map(this::toStudentResponse);
         return student.map(s -> new ResponseEntity<>(s, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
 
     @DeleteMapping("/deleteStudent/{id}")
-    ResponseEntity<Student> deleteStudent(@PathVariable String id) {
+    ResponseEntity<StudentResponse> deleteStudent(@PathVariable String id) {
         if (Long.parseLong(id) < 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        studentService.deleteStudent(Long.parseLong(id));
+       studentService.deleteStudent(Long.parseLong(id));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -63,7 +67,7 @@ public class StudentController {
     }
 
     @PostMapping("/courses/{studentId}/{courseId}")
-    ResponseEntity<Student> assignStudentToCourse(@PathVariable String studentId, @PathVariable String courseId){
+    ResponseEntity<StudentResponse> assignStudentToCourse(@PathVariable String studentId, @PathVariable String courseId){
         if(Long.parseLong(studentId) < 0 || Long.parseLong(courseId) < 0){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -80,8 +84,13 @@ public class StudentController {
 
 
     private StudentCreateRequest toStudentCreateRequest(Student student){
-        return new StudentCreateRequest(student.getId(), student.getFirstName(), student.getLastName());
+        return new StudentCreateRequest(
+                student.getId(),
+                student.getFirstName(),
+                student.getLastName(),
+                student.getCourses());
     }
+
 
 
 

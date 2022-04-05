@@ -25,9 +25,7 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("student test")
-class StudentControllerTestIT {
+class StudentControllerTestIT extends AbctractIntegrationTest{
 
     @LocalServerPort
     private int port;

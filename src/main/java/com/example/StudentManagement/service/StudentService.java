@@ -22,8 +22,8 @@ public class StudentService {
         this.courseService = courseService;
     }
 
-    public void addStudent(Student student) {
-        studentRepository.save(student);
+    public Student addStudent(Student student) {
+        return studentRepository.save(student);
     }
 
     public List<Student> getAllStudents() {

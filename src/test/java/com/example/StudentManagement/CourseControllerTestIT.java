@@ -119,7 +119,6 @@ class CourseControllerTestIT {
 
         assertThat(result.getStatusCodeValue()).isEqualTo(404);
 
-
     }
 
     @Test

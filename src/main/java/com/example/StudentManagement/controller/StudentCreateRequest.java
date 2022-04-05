@@ -1,5 +1,6 @@
 package com.example.StudentManagement.controller;
 
+import com.example.StudentManagement.model.Course;
 import com.example.StudentManagement.model.Student;
 
 import javax.persistence.ManyToMany;
@@ -7,14 +8,16 @@ import java.util.Set;
 
 public class StudentCreateRequest {
 
-    private final Long id;
-    private final String firstName;
-    private final String lastName;
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private Set<Course> courses;
 
-    public StudentCreateRequest(Long id, String firstName, String lastName) {
+    public StudentCreateRequest(Long id, String firstName, String lastName, Set<Course> courses ) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.courses = courses;
     }
 
     public Long getId() {
@@ -27,5 +30,25 @@ public class StudentCreateRequest {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
     }
 }
