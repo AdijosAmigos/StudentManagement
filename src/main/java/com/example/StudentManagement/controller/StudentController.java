@@ -35,9 +35,9 @@ public class StudentController {
     }
 
     @PostMapping("/students")
-    ResponseEntity<StudentCreateRequest> addUser(@RequestBody StudentCreateRequest student) {
-        Student createdStudent = studentService.addStudent(toStudentCreateRequest(student));
-        return new ResponseEntity<>(toStudentCreateRequest(createdStudent), HttpStatus.CREATED);
+    ResponseEntity<StudentResponse> addUser(@RequestBody StudentCreateRequest student) {
+        Student createdStudent = studentService.addStudent((student));
+        return new ResponseEntity<>(toStudentResponse(createdStudent), HttpStatus.CREATED);
     }
 
     @GetMapping("/student/{id}")
@@ -45,10 +45,10 @@ public class StudentController {
         if (Long.parseLong(id) < 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Optional<StudentResponse> student = studentService.findStudentById(Long.parseLong(id))
-                .map(this::toStudentResponse);
-        return student.map(s -> new ResponseEntity<>(s, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
+        return studentService.findStudentById(Long.parseLong(id))
+                .map(this::toStudentResponse)
+                .map(s -> new ResponseEntity<>(s, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping("/deleteStudent/{id}")
@@ -66,6 +66,7 @@ public class StudentController {
         return new ResponseEntity<>(toStudentResponse(updatedStudent), HttpStatus.OK);
     }
 
+    //test do napisania
     @PostMapping("/courses/{studentId}/{courseId}")
     ResponseEntity<StudentResponse> assignStudentToCourse(@PathVariable String studentId, @PathVariable String courseId){
         if(Long.parseLong(studentId) < 0 || Long.parseLong(courseId) < 0){

@@ -49,8 +49,6 @@ class StudentControllerTestIT extends AbctractIntegrationTest{
 
         var result = restTemplate
                 .withBasicAuth("user", "user")
-                .withBasicAuth("mode", "mode")
-                .withBasicAuth("admin", "admin")
                 .getForEntity("http://localhost:" + port + "/students", Student[].class);
 
         assertThat(result.getStatusCode().is2xxSuccessful()).isTrue();

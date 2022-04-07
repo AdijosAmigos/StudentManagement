@@ -1,5 +1,6 @@
 package com.example.StudentManagement.service;
 
+import com.example.StudentManagement.controller.StudentCreateRequest;
 import com.example.StudentManagement.controller.StudentUpdateRequest;
 import com.example.StudentManagement.model.Student;
 import com.example.StudentManagement.repository.StudentRepository;
@@ -22,8 +23,9 @@ public class StudentService {
         this.courseService = courseService;
     }
 
-    public Student addStudent(Student student) {
-        return studentRepository.save(student);
+    public Student addStudent(StudentCreateRequest student) {
+        Student createdStudent = new Student(student.getFirstName(), student.getLastName());
+        return studentRepository.save(createdStudent);
     }
 
     public List<Student> getAllStudents() {
@@ -39,10 +41,10 @@ public class StudentService {
     }
 
     public void subscribeToCourse(Long studentId, Long courseId) {
-        var course = courseService.findCourseById(courseId);
-        var student = findStudentById(studentId);
-        student.get().addCourse(course.get());
-        studentRepository.save(student.get());
+        var course = courseService.getById(courseId);
+        var student = studentRepository.getById(studentId);
+        student.addCourse(course);
+        studentRepository.save(student);
     }
 
     @Transactional
