@@ -1,26 +1,18 @@
 package com.example.StudentManagement;
 
-import com.example.StudentManagement.controller.StudentResponse;
-import com.example.StudentManagement.controller.StudentUpdateRequest;
-import com.example.StudentManagement.model.Course;
+import com.example.StudentManagement.controller.StudentRequest.StudentResponse;
+import com.example.StudentManagement.controller.StudentRequest.StudentUpdateRequest;
 import com.example.StudentManagement.model.Student;
 import com.example.StudentManagement.repository.StudentRepository;
 import com.example.StudentManagement.service.StudentService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ActiveProfiles;
-
-import javax.print.attribute.standard.Media;
-
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;

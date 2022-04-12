@@ -1,4 +1,4 @@
-package com.example.StudentManagement.controller;
+package com.example.StudentManagement.controller.StudentRequest;
 
 
 public class StudentUpdateRequest {

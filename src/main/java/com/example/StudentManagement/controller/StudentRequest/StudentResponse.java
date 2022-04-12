@@ -1,4 +1,4 @@
-package com.example.StudentManagement.controller;
+package com.example.StudentManagement.controller.StudentRequest;
 
 import com.example.StudentManagement.model.Course;
 import com.example.StudentManagement.model.Student;

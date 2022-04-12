@@ -42,6 +42,9 @@ public class Course {
         this.name = name;
     }
 
+    public Set<Student> getStudents() {
+        return students;
+    }
 
     @Override
     public boolean equals(Object o) {

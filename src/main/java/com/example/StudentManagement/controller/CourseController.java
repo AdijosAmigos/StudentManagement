@@ -1,5 +1,6 @@
 package com.example.StudentManagement.controller;
 
+import com.example.StudentManagement.controller.CourseRequest.CourseResponse;
 import com.example.StudentManagement.model.Course;
 import com.example.StudentManagement.repository.CourseRepository;
 import com.example.StudentManagement.service.CourseService;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 public class CourseController {
@@ -24,8 +27,11 @@ public class CourseController {
     }
 
     @GetMapping("/courses")
-    ResponseEntity<List<Course>> all() {
-        List<Course> allCourses = courseService.getAllCourses();
+    ResponseEntity<List<CourseResponse>> all() {
+        List<CourseResponse> allCourses = courseService.getAllCourses()
+                .stream()
+                .map(this::toCourseResponse)
+                .collect(Collectors.toList());
         return new ResponseEntity<>(allCourses, HttpStatus.OK);
     }
 
@@ -59,6 +65,17 @@ public class CourseController {
     ResponseEntity<Course> updateCourse(@RequestBody Course course){
         courseService.updateCourse(course);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    private CourseResponse toCourseResponse (Course course){
+        Set<CourseResponse.StudentResponse> students = course.getStudents()
+                .stream()
+                .map(student -> new CourseResponse.StudentResponse(
+                        student.getId(),
+                        student.getFirstName(),
+                        student.getLastName()))
+                .collect(Collectors.toSet());
+        return new CourseResponse(course.getId(), course.getName(), course.getStudents());
     }
 
 
