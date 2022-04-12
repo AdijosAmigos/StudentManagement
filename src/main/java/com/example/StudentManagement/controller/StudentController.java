@@ -38,7 +38,7 @@ public class StudentController {
 
     @PostMapping("/students")
     ResponseEntity<StudentResponse> addUser(@RequestBody StudentCreateRequest student) {
-        Student createdStudent = studentService.addStudent((student));
+        Student createdStudent = studentService.addStudent(student);
         return new ResponseEntity<>(toStudentResponse(createdStudent), HttpStatus.CREATED);
     }
 

@@ -45,19 +45,14 @@ class StudentControllerTestIT extends AbctractIntegrationTest{
 
         assertThat(result.getStatusCode().is2xxSuccessful()).isTrue();
         assertEquals(MediaType.APPLICATION_JSON, result.getHeaders().getContentType());
-//        problem z assercja ponizej
-//        assertThat(result.getBody()).containsExactly(student);
     }
 
     @Test
     void should_add_student() {
         Student student = new Student(1L, "Adrian", "Kowalski");
 
-//        czy podwojne sprawdzanie uprawnien uzytkownika do endpointu jest poprawne,
-//        czy można zrobić to ładniej?
         var studentResponseEntity = restTemplate
                 .withBasicAuth("admin", "admin")
-                .withBasicAuth("mode", "mode")
                 .postForEntity("http://localhost:" + port + "/students", student, Student.class);
 
         assertThat(studentResponseEntity.getStatusCode().is2xxSuccessful()).isTrue();
@@ -72,9 +67,7 @@ class StudentControllerTestIT extends AbctractIntegrationTest{
         studentRepository.save(student2);
 
         var result = restTemplate
-                .withBasicAuth("user", "user")
                 .withBasicAuth("mode", "mode")
-                .withBasicAuth("admin", "admin")
                 .getForEntity("http://localhost:" + port + "/student/1", Student.class);
 
         assertThat(result.getStatusCode().is2xxSuccessful()).isTrue();
@@ -107,8 +100,6 @@ class StudentControllerTestIT extends AbctractIntegrationTest{
 
         var result = restTemplate
                 .withBasicAuth("user", "user")
-                .withBasicAuth("mode", "mode")
-                .withBasicAuth("admin", "admin")
                 .getForEntity("http://localhost:" + port + "/student/-1", Student.class);
 
         assertThat(result.getStatusCodeValue()).isEqualTo(404);
@@ -131,6 +122,21 @@ class StudentControllerTestIT extends AbctractIntegrationTest{
     }
 
     @Test
+    void should_not_be_able_to_delete_student_when_no_authorization () {
+        Student student1 = new Student(1L, "Adrian", "Kowalski");
+
+        studentRepository.save(student1);
+
+        var result = restTemplate
+                .withBasicAuth("user", "user")
+                .exchange("http://localhost:" + port + "/deleteStudent/1",
+                        HttpMethod.DELETE, HttpEntity.EMPTY, Void.TYPE);
+
+        assertThat(result.getStatusCodeValue()).isEqualTo(403);
+
+    }
+
+    @Test
     void should_be_able_to_update_student() {
         Student student = new Student(1L, "Maciek", "Malinowski");
         studentRepository.save(student);
@@ -140,7 +146,6 @@ class StudentControllerTestIT extends AbctractIntegrationTest{
 
         var result = restTemplate
                 .withBasicAuth("mode", "mode")
-                .withBasicAuth("admin", "admin")
                 .exchange("http://localhost:" + port + "/students/1", HttpMethod.PUT, httpEntity, StudentResponse.class);
 
         assertThat(result.getStatusCodeValue()).isEqualTo(200);
@@ -148,5 +153,7 @@ class StudentControllerTestIT extends AbctractIntegrationTest{
         assertThat(result.getBody().getLastName()).isEqualTo("Kowalski");
 
     }
+
+
 
 }

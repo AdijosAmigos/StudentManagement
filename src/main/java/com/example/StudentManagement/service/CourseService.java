@@ -1,5 +1,7 @@
 package com.example.StudentManagement.service;
 
+import com.example.StudentManagement.controller.CourseRequest.CourseCreateRequest;
+import com.example.StudentManagement.controller.CourseRequest.CourseUpdateRequest;
 import com.example.StudentManagement.model.Course;
 import com.example.StudentManagement.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,9 @@ public class CourseService {
         this.courseRepository = courseRepository;
     }
 
-    public void addCourse(Course course) {
-        courseRepository.save(course);
+    public Course addCourse(CourseCreateRequest course) {
+        Course createdCourse = new Course(course.getName());
+        return courseRepository.save(createdCourse);
     }
 
     public List<Course> getAllCourses() {
@@ -40,9 +43,10 @@ public class CourseService {
     }
 
     @Transactional
-    public Course updateCourse(Course course){
-        Course editCourse = courseRepository.findById(course.getId()).orElseThrow();
+    public Course updateCourse(CourseUpdateRequest course, Long id){
+        Course editCourse = courseRepository.findById(id).orElseThrow();
         editCourse.setName(course.getName());
+        courseRepository.save(editCourse);
         return editCourse;
     }
 

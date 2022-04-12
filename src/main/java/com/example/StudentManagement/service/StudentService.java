@@ -3,6 +3,7 @@ package com.example.StudentManagement.service;
 import com.example.StudentManagement.controller.StudentRequest.StudentCreateRequest;
 import com.example.StudentManagement.controller.StudentRequest.StudentUpdateRequest;
 import com.example.StudentManagement.model.Student;
+import com.example.StudentManagement.repository.CourseRepository;
 import com.example.StudentManagement.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,12 +16,12 @@ import java.util.Optional;
 public class StudentService {
 
     private final StudentRepository studentRepository;
-    private final CourseService courseService;
+    private final CourseRepository courseRepository;
 
     @Autowired
-    public StudentService(StudentRepository studentRepository, CourseService courseService) {
+    public StudentService(StudentRepository studentRepository, CourseRepository courseRepository) {
         this.studentRepository = studentRepository;
-        this.courseService = courseService;
+        this.courseRepository = courseRepository;
     }
 
     public Student addStudent(StudentCreateRequest student) {
@@ -41,7 +42,7 @@ public class StudentService {
     }
 
     public void subscribeToCourse(Long studentId, Long courseId) {
-        var course = courseService.getById(courseId);
+        var course = courseRepository.getById(courseId);
         var student = studentRepository.getById(studentId);
         student.addCourse(course);
         studentRepository.save(student);

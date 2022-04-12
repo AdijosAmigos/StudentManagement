@@ -36,9 +36,6 @@ class CourseControllerTestIT {
     private CourseRepository courseRepository;
 
     @Autowired
-    private CourseService courseService;
-
-    @Autowired
     ApplicationContext context;
 
 
@@ -48,14 +45,11 @@ class CourseControllerTestIT {
         courseRepository.save(course);
 
         var result = restTemplate
-                .withBasicAuth("user", "user")
-                .withBasicAuth("mode", "mode")
                 .withBasicAuth("admin", "admin")
                 .getForEntity("http://localhost:" +port+ "/courses", Course[].class);
 
         assertThat(result.getStatusCode().is2xxSuccessful()).isTrue();
         assertThat(result.getHeaders().getContentType()).isEqualTo(MediaType.APPLICATION_JSON);
-//        a tu działa
         assertThat(result.getBody()).containsExactly(course);
     }
 
@@ -65,7 +59,6 @@ class CourseControllerTestIT {
 
         var result = restTemplate
                 .withBasicAuth("mode", "mode")
-                .withBasicAuth("admin", "admin")
                 .postForEntity("http://localhost:" + port + "/courses", course, Course.class);
 
         assertThat(result.getStatusCode().is2xxSuccessful()).isTrue();
@@ -81,8 +74,6 @@ class CourseControllerTestIT {
 
         var result = restTemplate
                 .withBasicAuth("user", "user")
-                .withBasicAuth("mode", "mode")
-                .withBasicAuth("admin", "admin")
                 .getForEntity("http://localhost:" +port+ "/course/1", Course.class);
 
         assertThat(result.getStatusCode().is2xxSuccessful()).isTrue();
@@ -113,8 +104,6 @@ class CourseControllerTestIT {
 
         var result = restTemplate
                 .withBasicAuth("user", "user")
-                .withBasicAuth("mode", "mode")
-                .withBasicAuth("admin", "admin")
                 .getForEntity("http://localhost:" +port+ "/course/-1", Course.class);
 
         assertThat(result.getStatusCodeValue()).isEqualTo(404);
@@ -135,13 +124,25 @@ class CourseControllerTestIT {
 
     }
 
+    @Test
+    void should_not_be_able_to_delete_course_when_no_authorization () {
+        Course course = new Course(1L,"math");
+
+        courseRepository.save(course);
+
+        var result = restTemplate
+                .withBasicAuth("mode", "mode")
+                .exchange("http://localhost:" +port+ "/deleteCourse/1", HttpMethod.DELETE, HttpEntity.EMPTY, Void.TYPE);
+
+        assertThat(result.getStatusCodeValue()).isEqualTo(403);
+    }
+
 
     @Test
     void should_be_able_to_update_course(){
         Course course = new Course(1L, "math");
         Course editCourse = new Course(1L, "chemistry");
 
-//        restTemplate.put("http://localhost:" +port+ "/courses/1", editCourse, Course.class);
         ResponseEntity<Course> exchange = restTemplate.exchange("http://localhost:" + port + "/courses/1", HttpMethod.PUT, HttpEntity.EMPTY, Course.class, 1);
         assertThat(exchange.getStatusCode().is2xxSuccessful()).isTrue();
 
