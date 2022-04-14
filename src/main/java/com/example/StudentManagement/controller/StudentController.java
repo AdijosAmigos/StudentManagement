@@ -68,7 +68,7 @@ public class StudentController {
         return new ResponseEntity<>(toStudentResponse(updatedStudent), HttpStatus.OK);
     }
 
-    //test do napisania
+
     @PostMapping("/courses/{studentId}/{courseId}")
     ResponseEntity<StudentResponse> assignStudentToCourse(@PathVariable String studentId, @PathVariable String courseId){
         if(Long.parseLong(studentId) < 0 || Long.parseLong(courseId) < 0){

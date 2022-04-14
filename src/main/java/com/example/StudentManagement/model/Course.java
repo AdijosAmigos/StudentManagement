@@ -25,6 +25,12 @@ public class Course {
         this.name = name;
     }
 
+    public Course(Long id, String name, Set<Student> students) {
+        this.id = id;
+        this.name = name;
+        this.students = students;
+    }
+
     public Course() {
     }
 

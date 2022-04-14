@@ -5,6 +5,8 @@ public class CourseCreateRequest {
     private String name;
 
     public CourseCreateRequest(Long id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Long getId() {

@@ -164,7 +164,7 @@ class CourseControllerTestIT {
 
         var result = restTemplate
                 .withBasicAuth("mode", "mode")
-                .exchange("http://localhost:" +port+ "/courses/1", HttpMethod.PUT, httpEntity, CourseResponse.class);
+                .exchange("http://localhost:" +port+ "/course/1", HttpMethod.PUT, httpEntity, CourseResponse.class);
 
         assertThat(result.getStatusCodeValue()).isEqualTo(200);
         assertThat(result.getBody().getName()).isEqualTo("chemistry");

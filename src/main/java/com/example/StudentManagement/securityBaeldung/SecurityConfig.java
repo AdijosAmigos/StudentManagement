@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/students", "/courses", "/student/{id}", "/course/{id}").permitAll()
                 .antMatchers(HttpMethod.POST, "/students", "/student", "/courses/{studentId}/{courseId}").hasAnyRole(UserType.ADMIN.name(), UserType.MODERATOR.name())
                 .antMatchers(HttpMethod.POST, "/courses/{studentId}/{courseId}").hasAnyRole(UserType.ADMIN.name())
-                .antMatchers(HttpMethod.PUT, "/students/{id}", "/courses/{id}").hasAnyRole(UserType.ADMIN.name(), UserType.MODERATOR.name())
+                .antMatchers(HttpMethod.PUT, "/students/{id}", "/course/{id}").hasAnyRole(UserType.ADMIN.name(), UserType.MODERATOR.name())
                 .antMatchers(HttpMethod.DELETE, "/deleteStudent/{id}", "/deleteCourse/{id}").hasAnyRole(UserType.ADMIN.name())
                 .and()
                 .formLogin().permitAll()

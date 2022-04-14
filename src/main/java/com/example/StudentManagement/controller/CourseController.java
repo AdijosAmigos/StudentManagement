@@ -63,7 +63,7 @@ public class CourseController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/courses/{id}")
+    @PutMapping("/course/{id}")
     ResponseEntity<CourseResponse> updateCourse(@RequestBody CourseUpdateRequest course, @PathVariable String id) {
         Course editedCourse = courseService.updateCourse(course, Long.parseLong(id));
         return new ResponseEntity<>(toCourseResponse(editedCourse), HttpStatus.OK);
