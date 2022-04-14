@@ -1,8 +1,4 @@
-package com.example.StudentManagement.controller.CourseRequest;
-
-import com.example.StudentManagement.model.Student;
-
-import java.util.Set;
+package com.example.StudentManagement.dto;
 
 public class CourseCreateRequest {
     private Long id;

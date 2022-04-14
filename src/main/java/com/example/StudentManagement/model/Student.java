@@ -15,7 +15,7 @@ public class Student {
     private String firstName;
     private String lastName;
 
-    @ManyToMany
+    @ManyToMany()
     @JoinTable(
             name = "course_like",
             joinColumns = @JoinColumn(name = "student_id"),
@@ -31,6 +31,13 @@ public class Student {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public Student(Long id, String firstName, String lastName, Set<Course> courses) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.courses = courses;
     }
 
     public Student(String firstName, String lastName) {

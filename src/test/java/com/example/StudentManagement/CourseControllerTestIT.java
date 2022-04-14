@@ -1,7 +1,13 @@
 package com.example.StudentManagement;
+import com.example.StudentManagement.dto.CourseResponse;
+import com.example.StudentManagement.dto.CourseUpdateRequest;
+import com.example.StudentManagement.dto.StudentUpdateRequest;
 import com.example.StudentManagement.model.Course;
+import com.example.StudentManagement.model.Student;
 import com.example.StudentManagement.repository.CourseRepository;
+import com.example.StudentManagement.repository.StudentRepository;
 import com.example.StudentManagement.service.CourseService;
+import com.example.StudentManagement.service.StudentService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,6 +40,15 @@ class CourseControllerTestIT {
 
     @Autowired
     private CourseRepository courseRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private StudentService studentService;
+
+    @Autowired
+    private CourseService courseService;
 
     @Autowired
     ApplicationContext context;
@@ -138,13 +153,43 @@ class CourseControllerTestIT {
     }
 
 
+    // do dokonczenia dostaje 400 czemu?
     @Test
     void should_be_able_to_update_course(){
         Course course = new Course(1L, "math");
-        Course editCourse = new Course(1L, "chemistry");
+        courseRepository.save(course);
 
-        ResponseEntity<Course> exchange = restTemplate.exchange("http://localhost:" + port + "/courses/1", HttpMethod.PUT, HttpEntity.EMPTY, Course.class, 1);
-        assertThat(exchange.getStatusCode().is2xxSuccessful()).isTrue();
+        CourseUpdateRequest courseUpdateRequest = new CourseUpdateRequest("chemistry");
+        HttpEntity<CourseUpdateRequest> httpEntity = new HttpEntity<>(courseUpdateRequest);
+
+        var result = restTemplate
+                .withBasicAuth("mode", "mode")
+                .exchange("http://localhost:" +port+ "/courses/1", HttpMethod.PUT, httpEntity, CourseResponse.class);
+
+        assertThat(result.getStatusCodeValue()).isEqualTo(200);
+        assertThat(result.getBody().getName()).isEqualTo("chemistry");
+
+    }
+
+    @Test
+    void should_get_all_student_from_course(){
+        Student student = new Student(1L, "Adrian", "Kowalski");
+        Course course = new Course(1L, "math");
+
+        studentRepository.save(student);
+        courseRepository.save(course);
+
+        studentService.subscribeToCourse(student.getId(), course.getId());
+
+        var result = restTemplate
+                .withBasicAuth("admin", "admin")
+                .getForEntity("http://localhost:" +port+ "/course/1", Course.class);
+
+        assertThat(result.getStatusCodeValue()).isEqualTo(200);
+        assertThat(courseService.getAllStudents(course).isEmpty()).isFalse();
+
+
+
 
 
     }

@@ -1,8 +1,8 @@
 package com.example.StudentManagement.controller;
 
-import com.example.StudentManagement.controller.StudentRequest.StudentCreateRequest;
-import com.example.StudentManagement.controller.StudentRequest.StudentResponse;
-import com.example.StudentManagement.controller.StudentRequest.StudentUpdateRequest;
+import com.example.StudentManagement.dto.StudentCreateRequest;
+import com.example.StudentManagement.dto.StudentResponse;
+import com.example.StudentManagement.dto.StudentUpdateRequest;
 import com.example.StudentManagement.model.Student;
 import com.example.StudentManagement.repository.StudentRepository;
 import com.example.StudentManagement.service.StudentService;

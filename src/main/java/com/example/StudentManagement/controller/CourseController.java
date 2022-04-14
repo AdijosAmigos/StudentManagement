@@ -1,8 +1,8 @@
 package com.example.StudentManagement.controller;
 
-import com.example.StudentManagement.controller.CourseRequest.CourseCreateRequest;
-import com.example.StudentManagement.controller.CourseRequest.CourseResponse;
-import com.example.StudentManagement.controller.CourseRequest.CourseUpdateRequest;
+import com.example.StudentManagement.dto.CourseCreateRequest;
+import com.example.StudentManagement.dto.CourseResponse;
+import com.example.StudentManagement.dto.CourseUpdateRequest;
 import com.example.StudentManagement.model.Course;
 import com.example.StudentManagement.repository.CourseRepository;
 import com.example.StudentManagement.service.CourseService;
@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -67,7 +66,7 @@ public class CourseController {
     @PutMapping("/courses/{id}")
     ResponseEntity<CourseResponse> updateCourse(@RequestBody CourseUpdateRequest course, @PathVariable String id) {
         Course editedCourse = courseService.updateCourse(course, Long.parseLong(id));
-        return new ResponseEntity<>(toCourseResponse(editedCourse), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(toCourseResponse(editedCourse), HttpStatus.OK);
     }
 
     private CourseResponse toCourseResponse(Course course) {
@@ -78,7 +77,7 @@ public class CourseController {
                         student.getFirstName(),
                         student.getLastName()))
                 .collect(Collectors.toSet());
-        return new CourseResponse(course.getId(), course.getName(), course.getStudents());
+        return new CourseResponse(course.getId(), course.getName(), students);
     }
 
     private CourseCreateRequest toCourseCreateRequest(Course course) {

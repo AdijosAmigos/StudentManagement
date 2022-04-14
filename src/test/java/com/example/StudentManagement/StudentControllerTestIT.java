@@ -1,8 +1,10 @@
 package com.example.StudentManagement;
 
-import com.example.StudentManagement.controller.StudentRequest.StudentResponse;
-import com.example.StudentManagement.controller.StudentRequest.StudentUpdateRequest;
+import com.example.StudentManagement.dto.StudentResponse;
+import com.example.StudentManagement.dto.StudentUpdateRequest;
+import com.example.StudentManagement.model.Course;
 import com.example.StudentManagement.model.Student;
+import com.example.StudentManagement.repository.CourseRepository;
 import com.example.StudentManagement.repository.StudentRepository;
 import com.example.StudentManagement.service.StudentService;
 import org.junit.jupiter.api.Test;
@@ -14,10 +16,12 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 
+import java.util.Set;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class StudentControllerTestIT extends AbctractIntegrationTest{
+class StudentControllerTestIT extends AbctractIntegrationTest {
 
     @LocalServerPort
     private int port;
@@ -27,6 +31,9 @@ class StudentControllerTestIT extends AbctractIntegrationTest{
 
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    private CourseRepository courseRepository;
 
     @Autowired
     private StudentService studentService;
@@ -122,7 +129,7 @@ class StudentControllerTestIT extends AbctractIntegrationTest{
     }
 
     @Test
-    void should_not_be_able_to_delete_student_when_no_authorization () {
+    void should_not_be_able_to_delete_student_when_no_authorization() {
         Student student1 = new Student(1L, "Adrian", "Kowalski");
 
         studentRepository.save(student1);
@@ -154,6 +161,42 @@ class StudentControllerTestIT extends AbctractIntegrationTest{
 
     }
 
+    @Test
+    void should_return_students_courses() {
+        Student student = new Student(1L, "Adrian", "Kowalski");
+        Course course = new Course(1L, "math");
+
+        courseRepository.save(course);
+        studentRepository.save(student);
+
+        studentService.subscribeToCourse(student.getId(), course.getId());
+
+        var result = restTemplate
+                .withBasicAuth("user", "user")
+                .getForEntity("http://localhost:" +port+ "/students/1", Student.class);
+
+        assertThat(result.getStatusCodeValue()).isEqualTo(200);
+        assertThat(studentService.getAllCourses(student).isEmpty()).isFalse();
+
+    }
+
+   @Test
+   void should_subscribe_student_to_course() {
+       Student student = new Student(1L, "Adrian", "Kowalski");
+       Course course = new Course(1L, "math");
+
+         studentRepository.save(student);
+         courseRepository.save(course);
+
+        studentService.subscribeToCourse(student.getId(), course.getId());
+
+        var result = restTemplate
+        .withBasicAuth("admin", "admin")
+        .exchange("http://localhost:" + port + "/courses/1/1",
+                HttpMethod.POST, HttpEntity.EMPTY, StudentResponse.class);
+
+       assertThat(result.getStatusCodeValue()).isEqualTo(200);
+   }
 
 
 }

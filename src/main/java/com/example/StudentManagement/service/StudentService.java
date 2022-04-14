@@ -1,7 +1,8 @@
 package com.example.StudentManagement.service;
 
-import com.example.StudentManagement.controller.StudentRequest.StudentCreateRequest;
-import com.example.StudentManagement.controller.StudentRequest.StudentUpdateRequest;
+import com.example.StudentManagement.dto.StudentCreateRequest;
+import com.example.StudentManagement.dto.StudentUpdateRequest;
+import com.example.StudentManagement.model.Course;
 import com.example.StudentManagement.model.Student;
 import com.example.StudentManagement.repository.CourseRepository;
 import com.example.StudentManagement.repository.StudentRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class StudentService {
@@ -31,6 +33,10 @@ public class StudentService {
 
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
+    }
+
+    public Set<Course> getAllCourses(Student student){
+        return student.getCourses();
     }
 
     public Optional<Student> findStudentById(Long id) {

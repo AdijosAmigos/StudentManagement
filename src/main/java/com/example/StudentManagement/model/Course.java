@@ -1,5 +1,7 @@
 package com.example.StudentManagement.model;
 
+import org.hibernate.annotations.Fetch;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
@@ -14,7 +16,7 @@ public class Course {
 
     private String name;
 
-    @ManyToMany(mappedBy = "courses")
+    @ManyToMany(mappedBy = "courses", fetch = FetchType.EAGER)
     private Set<Student> students;
 
 

@@ -1,4 +1,4 @@
-package com.example.StudentManagement.controller.StudentRequest;
+package com.example.StudentManagement.dto;
 
 
 public class StudentUpdateRequest {

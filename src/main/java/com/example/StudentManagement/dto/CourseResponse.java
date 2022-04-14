@@ -1,17 +1,16 @@
-package com.example.StudentManagement.controller.CourseRequest;
+package com.example.StudentManagement.dto;
 
 import com.example.StudentManagement.model.Student;
 
-import javax.persistence.ManyToMany;
 import java.util.Set;
 
 public class CourseResponse {
 
     private final Long id;
     private final String name;
-    private final Set<Student> students;
+    private final Set<StudentResponse> students;
 
-    public CourseResponse(Long id, String name, Set<Student> students) {
+    public CourseResponse(Long id, String name, Set<StudentResponse> students) {
         this.id = id;
         this.name = name;
         this.students = students;
@@ -25,7 +24,7 @@ public class CourseResponse {
         return name;
     }
 
-    public Set<Student> getStudents() {
+    public Set<StudentResponse> getStudents() {
         return students;
     }
 

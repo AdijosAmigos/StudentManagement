@@ -1,4 +1,4 @@
-package com.example.StudentManagement.controller.StudentRequest;
+package com.example.StudentManagement.dto;
 
 import com.example.StudentManagement.model.Course;
 import com.example.StudentManagement.model.Student;
