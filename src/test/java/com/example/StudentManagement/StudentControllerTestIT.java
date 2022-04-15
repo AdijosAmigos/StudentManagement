@@ -166,8 +166,8 @@ class StudentControllerTestIT extends AbctractIntegrationTest {
         Student student = new Student(1L, "Adrian", "Kowalski");
         Course course = new Course(1L, "math");
 
-        courseRepository.save(course);
         studentRepository.save(student);
+        courseRepository.save(course);
 
         studentService.subscribeToCourse(student.getId(), course.getId());
 
@@ -192,10 +192,11 @@ class StudentControllerTestIT extends AbctractIntegrationTest {
 
         var result = restTemplate
         .withBasicAuth("admin", "admin")
-        .exchange("http://localhost:" + port + "/courses/1/1",
+        .exchange("http://localhost:" + port + "/courses/1/2",
                 HttpMethod.POST, HttpEntity.EMPTY, StudentResponse.class);
 
        assertThat(result.getStatusCodeValue()).isEqualTo(200);
+       assertThat(studentRepository.getById(student.getId()).getCourses().contains(course)).isFalse();
    }
 
 
